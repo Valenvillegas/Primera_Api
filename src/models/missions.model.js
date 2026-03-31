@@ -16,13 +16,13 @@ const missionSchema = new mongoose.Schema({
     },
     created_at:{
         type: Date,
-        default: date.now,
+        default: Date.now,
         required: true
     },
     finish_date: {
         type: Date,
         required: false,
-        default: null,
+        default: null
     }
 })
 
