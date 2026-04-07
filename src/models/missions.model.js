@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const missionSchema = new mongoose.Schema({
     fk_owner_id:{

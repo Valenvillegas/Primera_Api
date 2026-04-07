@@ -4,6 +4,10 @@ import ENVIROMENT from "./config/enviroment.config.js";
 import statusRouter from "./routes/status.router.js";
 import authRouter from "./routes/auth.router.js";
 import missionRouter from "./routes/mission.router.js";
+import missionRepository from "./repository/mission.repository.js";
+import taskRouter from "./routes/task.router.js";
+
+
 await connectMongoDB()
 
 const app = express()
@@ -16,8 +20,9 @@ app.use(express.json())
 app.use('/api/status', statusRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/missions', missionRouter)
+app.use('/api/tasks', taskRouter)
 
-app.listen(ENVIROMENT.PORT, () => 
+app.listen(ENVIROMENT.PORT, () =>
     console.log(`Servidor escuchando en el puerto ${ENVIROMENT.PORT}!`))
 
 /* desarrollar una api para gestionar las misiones y tareas

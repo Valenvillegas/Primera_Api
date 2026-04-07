@@ -1,20 +1,20 @@
 import mongoose from "mongoose"
-import { taskStatus,taskDifficulty } from "../constants/constants.js"
+import { taskStatus, taskDifficulty } from "../constants/constants.js"
 
 const taskSchema = new mongoose.Schema({
-    fk_mission_id:{
+    fk_mission_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Mission",
     },
-    description:{
+    description: {
         type: String,
         required: true
     },
-    created_at:{
+    created_at: {
         type: Date,
         default: Date.now,
     },
-    status:{
+    status: {
         type: String,
         enum: [taskStatus.PENDIENTE, taskStatus.EN_PROGRESO, taskStatus.COMPLETADA],
         default: taskStatus.PENDIENTE

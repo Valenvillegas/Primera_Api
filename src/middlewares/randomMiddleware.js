@@ -36,7 +36,7 @@ function randomMiddleware(request, response, next) {
                 response.status(500).send({
                     ok: false,
                     status: 500,
-                    message: "Error del servidor"
+                    message: "Error del servidor "
                 })
             }
     }

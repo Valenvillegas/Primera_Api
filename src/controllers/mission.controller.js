@@ -17,7 +17,7 @@ class MissionController {
                 throw new ServerError('El usuario no esta registrado', 404)
             }
 
-            const new_mission = await missionRepository.create(title, description, user_id)
+            const new_mission = await missionRepository.createMission(title, description, user_id)
             return response.status(201).send({
                 ok: true,
                 message: "Mision creada exitosamente",
@@ -36,35 +36,121 @@ class MissionController {
                     }
                 )
             }
-
             else {
                 console.error("Error en Mission controler", error)
                 response.status(500).send({
                     ok: false,
                     status: 500,
-                    message: "Error del servidor"
+                    message: "Error del servidor al crear la mision"
                 })
             }
         }
     }
-     async getById(request, response) {
-        try {   
+    async getById(request, response) {
+        try {
             const user = request.user
-            const {mission_id} = request.params
+            const { mission_id } = request.params
 
-            const mission = await missionRepository.getById(mission_id)
-     
-            if(!mission.fk_user_id.equals(user.id)){
+            const mission = request.mission || await missionRepository.findById(mission_id)
+
+            if (!mission) {
+                throw new ServerError('Mision no encontrada', 404)
+            }
+
+            if (!mission.fk_owner_id.equals(user.id)) {
                 throw new ServerError('El usuario no puede hacer esta operacion', 403)
             }
             response.send(
                 {
-                    ok: true, 
+                    ok: true,
                     status: 200,
                     message: "Mision obtenida",
                     data: {
                         mission
                     }
+                }
+
+            )
+        }
+        catch (error) {
+            if (error instanceof ServerError) {
+                response.status(error.status).send(
+                    {
+                        ok: false,
+                        status: error.status,
+                        message: error.message
+                    }
+                )
+            }
+            else {
+                console.log(error)
+                response.status(500).send(
+                    {
+                        ok: false,
+                        status: 500,
+                        message: "Error interno del servidor"
+                    }
+                )
+            }
+        }
+    }
+    async getAll(request, response) {
+        try {
+            const user = request.user
+            const missions = await missionRepository.getMissionsByUserId(user.id)
+            response.send(
+                {
+                    ok: true,
+                    status: 200,
+                    message: "Misiones obtenidas",
+                    data: {
+                        missions
+                    }
+                }
+            )
+        }
+        catch (error) {
+            if (error instanceof ServerError) {
+                response.status(error.status).send(
+                    {
+                        ok: false,
+                        status: error.status,
+                        message: error.message
+                    }
+                )
+            }
+            else {
+                console.log(error)
+                response.status(500).send(
+                    {
+                        ok: false,
+                        status: 500,
+                        message: "Error interno del servidor"
+                    }
+                )
+            }
+        }
+    }
+    async deleteById(request, response) {
+        try {
+            const user = request.user
+            const { mission_id } = request.params
+
+            const mission = request.mission || await missionRepository.findById(mission_id)
+
+            if (!mission) {
+                throw new ServerError('Mision no encontrada', 404)
+            }
+
+            if (!mission.fk_owner_id.equals(user.id)) {
+                throw new ServerError('El usuario no puede hacer esta operacion', 403)
+            }
+            await missionRepository.deleteById(mission_id)
+            response.send(
+                {
+                    ok: true,
+                    status: 200,
+                    message: "Mision eliminada",
                 }
             )
         }

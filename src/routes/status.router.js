@@ -10,7 +10,7 @@ primero pasa por el random middleware donde se determina mi suerte
 
 si tengo suerte pasara al metodo -get del statusController
 */
-statusRouter.get('/:user_id',authMiddleware(["premium"]),statusController.get)
+statusRouter.get('/:user_id', authMiddleware([]), statusController.get)
 
 
 export default statusRouter

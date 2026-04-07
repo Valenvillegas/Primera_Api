@@ -75,9 +75,7 @@ function authMiddleware(valid_roles = []) {
             if (!user) {
                 throw new ServerError('el usuario no existe', 404)
             }
-            console.log(valid_roles)
-            console.log(user.role)
-            if (valid_roles.length > 0 && !(valid_roles.includes(user.role))) {
+            if (valid_roles.length > 0 && (!user.role || !valid_roles.includes(user.role))) {
                 throw new ServerError("no tiene permiso para la operacion", 403)
             }
 
