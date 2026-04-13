@@ -11,41 +11,41 @@ const taskRouter = express.Router()
 taskRouter.post(
     '/:user_id/:mission_id',
     authMiddleware([]),
-    missionMiddleware([]),
+    missionMiddleware,
     taskController.create
 )
 
 taskRouter.get(
     '/:user_id/:mission_id',
     authMiddleware([]),
-    missionMiddleware([]),
+    missionMiddleware,
     taskController.getAllTaskOfMission
 )
 
 taskRouter.get(
     '/:user_id/detail/:task_id',
     authMiddleware([]),
-    taskMiddleware([]),
+    taskMiddleware,
     taskController.getById
 )
 
 taskRouter.put(
     '/:user_id/:task_id',
     authMiddleware([]),
-    taskMiddleware([]),
+    taskMiddleware,
     taskController.update
 )
 
 taskRouter.patch(
     '/:user_id/:task_id/status',
     authMiddleware([]),
-    taskMiddleware([]),
+    taskMiddleware,
     taskController.updateStatus
 )
 taskRouter.delete(
     '/:user_id/:task_id',
     authMiddleware([]),
-    taskMiddleware([]),
+    taskMiddleware,
     taskController.deleteById
 )
 

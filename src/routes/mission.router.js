@@ -13,7 +13,7 @@ missionRouter.post(
 )
 
 missionRouter.get(
-    "/search/:user_id",
+    "/:user_id",
     authMiddleware([]),
     missionController.getAll
 )
@@ -21,7 +21,7 @@ missionRouter.get(
 missionRouter.delete(
     "/:user_id/:mission_id",
     authMiddleware([]),
-    missionMiddleware(),
+    missionMiddleware,
     missionController.deleteById
 )
 
